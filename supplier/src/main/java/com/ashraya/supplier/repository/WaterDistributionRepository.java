@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.ashraya.supplier.model.WaterDistribution;
 
 @Repository
-public interface WaterDistributionRepository extends JpaRepository<WaterDistribution, Integer>{
-	
-	public WaterDistribution findByWaterSupplierSupplierId(Integer distributionId);
+public interface WaterDistributionRepository extends JpaRepository<WaterDistribution, Integer> {
+
 }

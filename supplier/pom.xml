@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>supplier</name>
 	<description>Supplier Mircoservice</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -72,7 +72,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>customer</finalName>
+		<finalName>supplier</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

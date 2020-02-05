@@ -2,8 +2,6 @@ package com.ashraya.supplier.serviceImpl;
 
 import java.text.ParseException;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +12,8 @@ import com.ashraya.supplier.model.WaterDistribution;
 import com.ashraya.supplier.repository.WaterDistributionRepository;
 import com.ashraya.supplier.service.OrderService;
 import com.ashraya.supplier.util.CommonUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse updateOrder(Integer bookingId, String status) throws ParseException {
         log.info(OrderServiceImpl.class + ":: Starting updateOrder");
-        WaterDistribution waterDistribution = waterDistributionRepository.findByWaterSupplierSupplierId(bookingId);
+        WaterDistribution waterDistribution = waterDistributionRepository.findOne(bookingId);
         if (null != waterDistribution) {
             if (waterDistribution.getDistributionStatus().equals(DistributionStatus.scheduled)) {
                 waterDistribution.setDistributionStatus(DistributionStatus.inprogress);

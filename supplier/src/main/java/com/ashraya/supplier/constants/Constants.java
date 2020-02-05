@@ -2,7 +2,6 @@ package com.ashraya.supplier.constants;
 
 public class Constants {
 
-    public static final String CUSTOMER = "customer";
     public static final String LOGIN_STATUS = "User LoggedIn";
     public static final String REGISTER_STATUS = "User Registered";
     public static final String GST_NOT_FOUND = "GST number can't be null";
@@ -33,5 +32,6 @@ public class Constants {
     public static final String BOOKINGID_INVALID = "bookingId is Invalid";
 
     public final static String APPLICATION_PROPERTIES_PATH = "F:/Personal-Data/ongoing-work/microservice-freelancer/workspace/supplier-application.properties";
+    //public final static String APPLICATION_PROPERTIES_PATH = "/home/ec2-user/watertohome/propertyfiles/supplier-application.properties";
 
 }
