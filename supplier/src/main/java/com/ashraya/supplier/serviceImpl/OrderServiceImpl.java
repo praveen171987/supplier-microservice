@@ -5,6 +5,7 @@ import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ashraya.supplier.LoggerService;
 import com.ashraya.supplier.constants.Constants;
 import com.ashraya.supplier.constants.DistributionStatus;
 import com.ashraya.supplier.domain.OrderResponse;
@@ -13,10 +14,7 @@ import com.ashraya.supplier.repository.WaterDistributionRepository;
 import com.ashraya.supplier.service.OrderService;
 import com.ashraya.supplier.util.CommonUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -25,25 +23,30 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CommonUtil commonUtil;
 
+    private LoggerService log = LoggerService.createLogger(OrderServiceImpl.class.getName());
+
     @Override
     public OrderResponse updateOrder(Integer bookingId, String status) throws ParseException {
-        log.info(OrderServiceImpl.class + ":: Starting updateOrder");
+        log.printStart("updateOrder");
         WaterDistribution waterDistribution = waterDistributionRepository.findOne(bookingId);
         if (null != waterDistribution) {
             if (waterDistribution.getDistributionStatus().equals(DistributionStatus.scheduled)) {
                 waterDistribution.setDistributionStatus(DistributionStatus.inprogress);
                 waterDistribution.setDateTime(commonUtil.genrateCurrentTimestamp());
                 waterDistributionRepository.save(waterDistribution);
-                log.info(OrderServiceImpl.class + "::End updateOrder");
-                return OrderResponse.builder().Orderstatus(Constants.ORDER_STATUS).status(DistributionStatus.inprogress.name()).build();
+                log.printEnd("updateOrder");
+                return buildOrderResponse(Constants.ORDER_STATUS, DistributionStatus.inprogress.name());
             } else {
-                log.info(OrderServiceImpl.class + ":: End updateOrder");
-                return OrderResponse.builder().Orderstatus(Constants.ORDER_STATUS_FAIL).status("oreder status already " + waterDistribution.getDistributionStatus().name()).build();
+                log.printEnd("updateOrder");
+                return buildOrderResponse(Constants.ORDER_STATUS_FAIL, "oreder status already " + waterDistribution.getDistributionStatus().name());
             }
         } else {
-            log.info(OrderServiceImpl.class + ":: End updateOrder");
-            return OrderResponse.builder().Orderstatus(Constants.ORDER_STATUS_FAIL).status(Constants.BOOKINGID_INVALID).build();
+            log.printEnd("updateOrder");
+            return buildOrderResponse(Constants.ORDER_STATUS_FAIL, Constants.BOOKINGID_INVALID);
         }
     }
 
+    private OrderResponse buildOrderResponse(String status, String message) {
+        return OrderResponse.builder().orderStatus(status).message(message).build();
+    }
 }

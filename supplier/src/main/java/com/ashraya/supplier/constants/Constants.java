@@ -31,7 +31,15 @@ public class Constants {
 
     public static final String BOOKINGID_INVALID = "bookingId is Invalid";
 
-    public final static String APPLICATION_PROPERTIES_PATH = "F:/Personal-Data/ongoing-work/microservice-freelancer/workspace/supplier-application.properties";
+    //public final static String APPLICATION_PROPERTIES_PATH = "F:/Personal-Data/ongoing-work/microservice-freelancer/workspace/supplier-application.properties";
     //public final static String APPLICATION_PROPERTIES_PATH = "/home/ec2-user/watertohome/propertyfiles/supplier-application.properties";
-
+ 
+    
+    
+    public final static String ORDERID_NOT_FOUND = "OrderId not found";
+    public final static String INVALID_USERID = "User not found";
+    public final static String INVALID_QUETIONSID = "Question not found";
+    public final static String SUPPLIER_FEEDBACK_SUCCESS = "Supplier feedback added successfully";
+    public final static String SUPPLIER_FEEDBACK_ALREADY = "Supplier feedback already added"; 
+    public final static String APPLICATION_PROPERTIES_PATH = "D://customer_application/application.properties";
 }

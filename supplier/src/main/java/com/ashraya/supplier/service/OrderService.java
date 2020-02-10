@@ -7,4 +7,5 @@ import com.ashraya.supplier.domain.OrderResponse;
 public interface OrderService {
 
 	public OrderResponse updateOrder(Integer bookingId, String status) throws ParseException;
+	
 }

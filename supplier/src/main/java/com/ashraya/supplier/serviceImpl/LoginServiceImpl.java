@@ -103,8 +103,8 @@ public class LoginServiceImpl implements LoginService {
 
     private void createWaterSupplier(LoginRequestPayload payload, FacebookAccountInfo facebookAccountInfo, GoogleAccountInfo accountInfo) {
         log.info(LoginServiceImpl.class + ":: Starting createWaterSupplier");
-        waterSupplier = waterSupplierRepository.save(CustomerMapper.mapToWaterSupplier(payload, facebookAccountInfo, accountInfo,
-                        categoryRepository.findOne(payload.getCategoryId())));
+        waterSupplier = waterSupplierRepository
+                        .save(CustomerMapper.mapToWaterSupplier(payload, facebookAccountInfo, accountInfo, categoryRepository.findOne(payload.getCategoryId())));
         status = Constants.REGISTER_STATUS;
         log.info(LoginServiceImpl.class + ":: End createWaterSupplier");
     }

@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderResponse {
+public class QuestionFeedbackPayload {
 
-	private String orderStatus;
+	private Integer id;
 	
-	private String message;
-	
+	private String value;
 }

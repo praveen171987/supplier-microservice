@@ -1,5 +1,6 @@
 package com.ashraya.supplier.domain;
 
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderResponse {
+public class FeedbackPayload {
 
-	private String orderStatus;
-	
-	private String message;
-	
+	private Integer orderId;
+
+	private Integer userId;
+
+	private List<QuestionFeedbackPayload> questionFeedbackPayload;
 }
