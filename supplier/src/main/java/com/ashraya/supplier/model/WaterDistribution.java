@@ -51,8 +51,8 @@ public class WaterDistribution {
 	private WaterSupplier waterSupplier;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "delivery_geo_location_id", referencedColumnName = "id")
-	private DeliveryGeoLocation deliveryGeoLocation;
+	@JoinColumn(name = "geo_location_id", referencedColumnName = "id")
+	private GeoLocation geoLocation;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "water_tanker_category_id", referencedColumnName = "id")

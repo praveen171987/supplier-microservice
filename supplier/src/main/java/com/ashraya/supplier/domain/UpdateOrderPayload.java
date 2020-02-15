@@ -1,5 +1,7 @@
 package com.ashraya.supplier.domain;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtpPayload {
-    private Integer userId;
-    private String otpNumber;
+public class UpdateOrderPayload {
+
+	private Integer bookingId;
+	
+	private String staus;
+	
+	private Integer supplierId;
+	
+	private String dateTime;
+	
+	private GeoLocationPayload geoLocation;
 }

@@ -8,4 +8,5 @@ import com.ashraya.supplier.model.WaterDistribution;
 @Repository
 public interface WaterDistributionRepository extends JpaRepository<WaterDistribution, Integer> {
 
+	public WaterDistribution findByIdAndWaterSupplierSupplierId(Integer bookingId, Integer supplierId);
 }

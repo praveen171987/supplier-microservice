@@ -23,7 +23,6 @@ import com.ashraya.supplier.controller.LoginController;
 import com.ashraya.supplier.domain.CustomerResponse;
 import com.ashraya.supplier.domain.LoginRequestPayload;
 import com.ashraya.supplier.domain.OtpPayload;
-import com.ashraya.supplier.domain.OtpResponse;
 import com.ashraya.supplier.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -55,14 +54,49 @@ public class LoginControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.LOGIN).contentType(Constants.APPLICATION_JSON)
                         .accept(Constants.APPLICATION_JSON).content(objectMapper.writeValueAsString(logipostnRequestPayload))).andExpect(status().isBadRequest());
     }
+    
+    @Test
+    public void whenValidInput_thenReturns200() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CustomerResponse customerResponse = CustomerResponse.builder().customerId(1).emailId("patidar@mail.com").status("success").userName("USERa1223").build();
+        LoginRequestPayload logipostnRequestPayload = LoginRequestPayload.builder().loginType("GOOGLE").categoryId(1).displayName("ruan").emailId("patidar@mail.com").firstName("ruan").build();
+        when(loginService.loginOrRegister(Mockito.anyObject())).thenReturn(customerResponse);
+        mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.LOGIN).contentType(Constants.APPLICATION_JSON)
+                        .accept(Constants.APPLICATION_JSON).content(objectMapper.writeValueAsString(logipostnRequestPayload))).andExpect(status().isOk());
+    }
 
     @Test
-    public void whenValidInputForCancelOrder_thenReturns200() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        OtpPayload OtpPayload = new OtpPayload();
-        OtpResponse OtpResponse = new OtpResponse();
-        when(loginService.verifyOtp(Mockito.anyObject())).thenReturn(OtpResponse);
-        mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.VERIFY_OTP).contentType(Constants.APPLICATION_JSON)
-                        .accept(Constants.APPLICATION_JSON).content(objectMapper.writeValueAsString(OtpPayload))).andExpect(status().isOk());
-    }
+	public void whenValidOtpNumber_thenReturn200() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+		CustomerResponse customerResponse = CustomerResponse.builder().customerId(1).emailId("rahul").status("success")
+				.userName("rop").build();
+		 OtpPayload  otpPayload =  OtpPayload.builder().userId(1).otpNumber("1234").build();
+		when(loginService.loginOrRegister(Mockito.anyObject())).thenReturn(customerResponse);
+		mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.VERIFY_OTP)
+				.contentType(Constants.APPLICATION_JSON).accept(Constants.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(otpPayload))).andExpect(status().isOk());
+	}
+    
+    @Test
+   	public void whenInValidOtpNumber_thenReturn400() throws Exception {
+   		ObjectMapper objectMapper = new ObjectMapper();
+   		CustomerResponse customerResponse = CustomerResponse.builder().customerId(1).emailId("rahul").status("failure")
+   				.userName("rop").build();
+   		 OtpPayload  otpPayload =  OtpPayload.builder().userId(1).otpNumber("12234").build();
+   		when(loginService.loginOrRegister(Mockito.anyObject())).thenReturn(customerResponse);
+   		mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.VERIFY_OTP)
+   				.contentType(Constants.APPLICATION_JSON).accept(Constants.APPLICATION_JSON)
+   				.content(objectMapper.writeValueAsString(otpPayload))).andExpect(status().isOk());
+   	}
+       
+    
+//    @Test
+//    public void whenValidInputForCancelOrder_thenReturns200() throws Exception {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        OtpPayload OtpPayload = new OtpPayload();
+//        OtpResponse OtpResponse = new OtpResponse();
+//        when(loginService.verifyOtp(Mockito.anyObject())).thenReturn(OtpResponse);
+//        mockMvc.perform(MockMvcRequestBuilders.post(Constants.SUPPLIER + Constants.VERSION + Constants.VERIFY_OTP).contentType(Constants.APPLICATION_JSON)
+//                        .accept(Constants.APPLICATION_JSON).content(objectMapper.writeValueAsString(OtpPayload))).andExpect(status().isOk());
+//    }
 }

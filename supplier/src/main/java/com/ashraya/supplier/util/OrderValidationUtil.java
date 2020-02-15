@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.ashraya.supplier.constants.Constants;
 import com.ashraya.supplier.domain.FeedbackPayload;
+import com.ashraya.supplier.domain.GeoLocationPayload;
+import com.ashraya.supplier.domain.UpdateOrderPayload;
 import com.ashraya.supplier.dto.DeliveryGeoLocationDto;
 import com.ashraya.supplier.exception.ValidationException;
 
@@ -42,6 +44,31 @@ public class OrderValidationUtil {
 		if (null == feedbackPayload.getQuestionFeedbackPayload()
 				|| feedbackPayload.getQuestionFeedbackPayload().isEmpty()) {
 			throw new ValidationException("QuestionFeedbackPayload" + Constants.NULL_MESSAGE);
+		}
+	}
+	
+	public void validateUpdateOrder(UpdateOrderPayload updateOrderPayload) {
+		if (updateOrderPayload == null) {
+			throw new ValidationException("updateOrderPayload" + Constants.NULL_MESSAGE);
+		}
+
+		if (updateOrderPayload.getBookingId() == null || updateOrderPayload.getBookingId() == 0) {
+			throw new ValidationException("BookingId" + Constants.NULL_MESSAGE);
+		}
+
+		if (updateOrderPayload.getSupplierId() == null || updateOrderPayload.getSupplierId() == 0) {
+			throw new ValidationException("SupplierId" + Constants.NULL_MESSAGE);
+		}
+
+		if (null == updateOrderPayload.getStaus()) {
+			throw new ValidationException("status" + Constants.NULL_MESSAGE);
+		}
+
+	}
+	
+	public void validateGeolocation(GeoLocationPayload geoLocationPayload) {
+		if (geoLocationPayload == null) {
+			throw new ValidationException("geoLocationPayload" + Constants.NULL_MESSAGE);
 		}
 	}
 }

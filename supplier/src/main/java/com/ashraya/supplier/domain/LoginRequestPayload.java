@@ -1,7 +1,6 @@
 package com.ashraya.supplier.domain;
 
 import com.ashraya.supplier.constants.AppUsage;
-import com.ashraya.supplier.constants.LoginType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginRequestPayload {
 
-    private LoginType loginType;
+    private String loginType;
     private String firstName;
     private String lastName;
     private String displayName;

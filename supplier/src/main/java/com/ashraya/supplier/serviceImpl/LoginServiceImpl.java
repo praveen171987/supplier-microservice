@@ -1,7 +1,5 @@
 package com.ashraya.supplier.serviceImpl;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +10,7 @@ import com.ashraya.supplier.domain.CustomerResponse;
 import com.ashraya.supplier.domain.LoginRequestPayload;
 import com.ashraya.supplier.domain.OtpPayload;
 import com.ashraya.supplier.domain.OtpResponse;
+import com.ashraya.supplier.exception.ValidationException;
 import com.ashraya.supplier.model.FacebookAccountInfo;
 import com.ashraya.supplier.model.GoogleAccountInfo;
 import com.ashraya.supplier.model.Otp;
@@ -22,7 +21,11 @@ import com.ashraya.supplier.repository.GoogleAccountRepository;
 import com.ashraya.supplier.repository.OtpRepository;
 import com.ashraya.supplier.repository.WaterSupplierRepository;
 import com.ashraya.supplier.service.LoginService;
+import com.ashraya.supplier.util.CommonUtil;
 import com.ashraya.supplier.util.LoginValidationUtil;
+import com.ashraya.supplier.util.SMSUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -48,13 +51,15 @@ public class LoginServiceImpl implements LoginService {
 
     public CustomerResponse loginOrRegister(LoginRequestPayload payload) {
         log.info(LoginServiceImpl.class + ":: Starting loginOrRegister");
-        LoginType loginType = LoginValidationUtil.validateLogintype(payload.getLoginType());
-        if (loginType.equals(LoginType.PHONE)) {
+        String loginType = LoginValidationUtil.validateLogintype(payload.getLoginType());
+        if (loginType.equals(LoginType.PHONE.toString())) {
             loginWithMobile(payload);
-        } else if (loginType.equals(LoginType.GOOGLE)) {
+        } else if (loginType.equals(LoginType.GOOGLE.toString())) {
             loginWithGoogle(payload);
-        } else if (loginType.equals(LoginType.FACEBOOK)) {
+        } else if (loginType.equals(LoginType.FACEBOOK.toString())) {
             loginWithFacebook(payload);
+        } else {
+            throw new ValidationException(Constants.LOGIN_TYPE_INVALID);
         }
         log.info(LoginServiceImpl.class + ":: End loginOrRegister");
         return createResponse(status, payload, waterSupplier);
@@ -69,9 +74,20 @@ public class LoginServiceImpl implements LoginService {
         } else {
             LoginValidationUtil.validate(payload);
             createWaterSupplier(payload, null, null);
+            saveOTP(phoneNumber);
         }
         log.info(LoginServiceImpl.class + ":: End loginWithMobile");
     }
+    
+    private void saveOTP(String senderNumber) {
+        int otpNum = CommonUtil.generateOTP();
+        SMSUtil.sendOtpMessage(otpNum, senderNumber);
+        Otp otp = new Otp();
+        otp.setOtpNumber(String.valueOf(otpNum));
+        otp.setWaterSupplier(waterSupplier);
+        otpRepository.save(otp);
+    }
+
 
     private void loginWithFacebook(LoginRequestPayload payload) {
         log.info(LoginServiceImpl.class + ":: Starting loginWithFacebook");

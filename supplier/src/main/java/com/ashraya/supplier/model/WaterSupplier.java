@@ -66,5 +66,7 @@ public class WaterSupplier {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id", referencedColumnName = "cat_id")
 	private Category category;
-
+	
+	@Column(name = "device_id")
+    private String deviceId;
 }

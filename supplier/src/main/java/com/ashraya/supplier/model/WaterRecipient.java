@@ -62,4 +62,8 @@ public class WaterRecipient {
     @Column(name = "login_account")
     @Enumerated(EnumType.STRING)
     private LoginType loginAccount;
+    
+    @Column(name = "device_id")
+    private String deviceId;
+
 }
